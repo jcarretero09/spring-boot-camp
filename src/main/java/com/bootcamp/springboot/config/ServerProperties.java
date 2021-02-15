@@ -8,7 +8,7 @@ public class ServerProperties {
 
     private String server_name;
     private String ip = "127.0.0.1";
-    private int port = 2345;
+    private int port = 8080;
 
     public ServerProperties() {
     }

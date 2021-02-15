@@ -1,41 +1,66 @@
 package com.bootcamp.springboot.controller;
 
 
-import com.bootcamp.springboot.model.TodoModel;
-import com.bootcamp.springboot.repo.TodoRepo;
-import com.sun.istack.internal.NotNull;
+import com.bootcamp.springboot.model.Todo;
+import com.bootcamp.springboot.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/todo")
+@Controller
 public class TodoController {
 
     @Autowired
-    private TodoRepo todoRepo;
+    private TodoService service;
 
-
-
-    @GetMapping
-    public List<TodoModel> findAll(){
-        return todoRepo.findAll();
+    @RequestMapping("/")
+    public String viewHomePage(Model model){
+        List<Todo> todoList = service.listAll();
+        model.addAttribute("todoLists" ,todoList);
+        Todo todo = new Todo();
+        model.addAttribute("todo",todo);
+        return "index";
     }
 
-    @PostMapping
-    public TodoModel save(@Validated @NotNull @RequestBody TodoModel todoModel){
-        return todoRepo.save(todoModel);
+    @RequestMapping("/index")
+    public String viewIndexPage(Model model){
+        List<Todo> todoList = service.listAll();
+        model.addAttribute("todoLists" ,todoList);
+        return "index";
     }
 
-    @PutMapping
-    public  TodoModel update(@Validated @NotNull @RequestBody TodoModel todoModel){
-        return  todoRepo.save(todoModel);
+//    @RequestMapping("/")
+//    public String viewTodoPage(Model model){
+//
+//        return "index";
+//    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveTodo(@ModelAttribute("todo") Todo todo){
+        service.save(todo);
+        return "redirect:/";
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable long id){
-        todoRepo.deleteById(id);
+    @RequestMapping("/update/{id}")
+    public ModelAndView updateTodoForm(@PathVariable(name = "id") Long id){
+
+        ModelAndView mav = new ModelAndView("update_todo");
+        Todo todo = service.get(id);
+        mav.addObject("todo",todo);
+        return mav;
     }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteTodo(@PathVariable(name = "id") Long id){
+        service.delete(id);
+        return "redirect:/";
+    }
+
 }

@@ -1,33 +1,32 @@
 package com.bootcamp.springboot.model;
 
-import com.sun.istack.internal.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TodoModel {
+public class Todo {
 
     private long id;
-    @NotNull
     private String title;
     private String description;
     private boolean done;
 
-
-    public TodoModel() {
+    public Todo() {
     }
 
-    public TodoModel(long id, String title, String description, boolean done) {
+    public Todo(long id, String title, String description, boolean done) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.done = done;
     }
 
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
