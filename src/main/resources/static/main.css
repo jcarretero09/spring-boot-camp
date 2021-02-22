@@ -1,0 +1,26 @@
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+
+.custom-color{
+    background-image: linear-gradient(to right, #2c3e50 , #3498db);
+}
+
+.info-custom-color{
+    background-image: linear-gradient(to right, #304352 , #d7d2cc);
+}
+
+body{
+    background-color: #ebf1ff;
+}
+
+.fa-check {
+    color: green;
+}
+
+.table-custom-color{
+    background-color:#cce0f0 ;
+}

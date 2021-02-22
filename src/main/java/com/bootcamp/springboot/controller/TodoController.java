@@ -6,10 +6,7 @@ import com.bootcamp.springboot.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -29,20 +26,14 @@ public class TodoController {
         return "index";
     }
 
-    @RequestMapping("/index")
-    public String viewIndexPage(Model model){
-        List<Todo> todoList = service.listAll();
-        model.addAttribute("todoLists" ,todoList);
-        return "index";
-    }
-
-//    @RequestMapping("/")
-//    public String viewTodoPage(Model model){
-//
+//    @RequestMapping("/index")
+//    public String viewIndexPage(Model model){
+//        List<Todo> todoList = service.listAll();
+//        model.addAttribute("todoLists" ,todoList);
 //        return "index";
 //    }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public String saveTodo(@ModelAttribute("todo") Todo todo){
         service.save(todo);
         return "redirect:/";
@@ -61,6 +52,12 @@ public class TodoController {
     public String deleteTodo(@PathVariable(name = "id") Long id){
         service.delete(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login()
+    {
+        return "login";
     }
 
 }
